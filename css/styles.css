@@ -1,0 +1,23 @@
+html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    height: 100vh;
+    background-color: rgb(168, 156, 156);
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+}
+
+#iniciar {
+    background-color: white;
+    padding: 2em;
+    margin-bottom: 5vh;
+}
+
+#tablero {
+    background-color: rgb(194, 194, 194);
+}
