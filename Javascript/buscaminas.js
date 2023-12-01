@@ -10,8 +10,8 @@ let nuevasCasillas = [];
 let finJuego = false;
 
 function iniciarPartida() {
-    cambiaMensajeBoton();
     reiniciaJuego();
+    cambiaMensajeBoton();
 
 
     filas = parseInt(prompt('Introduce el número de filas'));
@@ -47,7 +47,7 @@ function crearTablero() {
     // Creamos las casillas de manera dinámica
     for (let i=0; i<filas; i++) {
         let fila = document.createElement('tr');
-        for (let j=0; j<columnas; j++) {   
+        for (let j=0; j<columnas; j++) {
             let celda = document.createElement('td');
             celda.innerHTML = `<img fila="${i}" columna="${j}" class="casilla" src="img/fondo.jpg" data-mine="false" abierta="false" onclick="abreCasilla(this)" oncontextmenu="bandera(event, this)" data-flag="false"/>` // en el evento onclick le pasamos el parámetro this el cual equivale al elemento img que se esta clickando en ese momento
 
@@ -72,7 +72,7 @@ function setMinas() {
         if (!casillasMinadas.includes(casilla)) {
             let img = tabla.rows[fila].cells[columna].querySelector('img'); // obtenemos el elemento img de la casilla
             img.setAttribute('data-mine', 'true');              // Cambiamos propiedad data-mine a true
-            totalMinas--;                                       
+            totalMinas--;
         }
 
         casillasMinadas.push(casilla);                          // Añadimos casilla al array de minadas
@@ -106,14 +106,14 @@ function abreCasilla(img) {
         return;
     }
     // Si no es mina, checkea minas a su alrededor
-    
+
      if (!checkeaMinasAlrededor(img)) {
         casillasPorRevisar.push(calculaAdjacentes(img));
         recursividad();
      }
 
      compruebaVictoria();
-    
+
 }
 
 function checkeaMinasAlrededor(img) {
@@ -140,7 +140,7 @@ function checkeaMinasAlrededor(img) {
         img.src = 'img/minas0.jpg';
         return false;
     }
-    
+
 }
 
 function calculaAdjacentes(img) {
@@ -184,7 +184,7 @@ function recursividad() {
             }
         };
     };
-    
+
     if (nuevasCasillas.length != 0) {
         casillasPorRevisar = nuevasCasillas;
         nuevasCasillas = [];
@@ -223,14 +223,26 @@ function cambiaMensajeBoton() {
     if (finJuego) {
         boton.innerText = 'Jugar otra vez';
     } else {
-        boton.innerText = 'Iniciar Partida';
+        boton.innerText = 'Iniciar partida';
     }
 
 }
 
 function compruebaVictoria() {
-    
-    // TODO: comprobar si ha ganado recorriendo todo el tablero y viendo que todas las casillas estan abiertas si no son minas
+
+    // Obtenemos todos los elementos de class "casilla" en una variable y los recorremos mirando su data-mine
+    let casillas = document.querySelectorAll('.casilla');
+
+    for (let casilla of casillas) {
+        if (casilla.getAttribute('data-mine') == 'false' && casilla.getAttribute('abierta') == 'false') {
+            return;
+        }
+    }
+
+    alert('¡Felicidades! ¡Has ganado la partida!');
+    finJuego =  true;
+    revelarMapa();
+    cambiaMensajeBoton();
 
 }
 
@@ -268,5 +280,3 @@ function reiniciaJuego() {
 }
 
 // TODO: Añadir imagenes para minas 6, 7, 8
-// TODO: comprobar si gana
-// Mirar si hacae falta reiniciar todas las variables o no
