@@ -7,25 +7,26 @@ let filas = 0;
 let columnas = 0;
 let casillasPorRevisar = [];
 let nuevasCasillas = [];
+let finJuego = false;
 
 function iniciarPartida() {
-    // Reiniciar valores para empezar otra partida
-    
+    cambiaMensajeBoton();
+
     filas = parseInt(prompt('Introduce el número de filas'));
     columnas = parseInt(prompt('Introduce el número de columnas'));
 
     // Control de medidas del tablero
-    // if (filas < 10) {
-    //     filas = 10;
-    // } else if (filas > 30) {
-    //     filas = 30;
-    // }
+    if (filas < 10) {
+        filas = 10;
+    } else if (filas > 30) {
+        filas = 30;
+    }
 
-    // if (columnas < 10) {
-    //     columnas = 10;
-    // } else if (columnas > 30) {
-    //     columnas = 30;
-    // }
+    if (columnas < 10) {
+        columnas = 10;
+    } else if (columnas > 30) {
+        columnas = 30;
+    }
 
     crearTablero();                 // Creamos el tablero
     setMinas();                     // Colocamos las minas de manera aleatoria
@@ -46,7 +47,7 @@ function crearTablero() {
         let fila = document.createElement('tr');
         for (let j=0; j<columnas; j++) {   
             let celda = document.createElement('td');
-            celda.innerHTML = `<img fila="${i}" columna="${j}" class="casilla" src="img/fondo.jpg" data-mine="false" abierta="false" onclick="abreCasilla(this)"/>` // en el evento onclick le pasamos el parámetro this el cual equivale al elemento img que se esta clickando en ese momento
+            celda.innerHTML = `<img fila="${i}" columna="${j}" class="casilla" src="img/fondo.jpg" data-mine="false" abierta="false" onclick="abreCasilla(this)" oncontextmenu="bandera(event, this)"/>` // en el evento onclick le pasamos el parámetro this el cual equivale al elemento img que se esta clickando en ese momento
 
             fila.appendChild(celda);
         }
@@ -83,6 +84,7 @@ function abreCasilla(img) {
     if (img.getAttribute('abierta') == 'true') {
         return;
     }
+
     // Le asignamos a la casilla un atributo de que ya ha sido abierta en true
     img.setAttribute('abierta', 'true');
 
@@ -92,8 +94,9 @@ function abreCasilla(img) {
         img.style.border = '2px solid red';
         alert('¡BOOM! Has muerto');
         revelarMapa();
-        // cambiaMensajeBoton();
-        // reiniciar variables
+        finJuego = true;
+        cambiaMensajeBoton();
+        reiniciaJuego();
         return;
     }
     // Si no es mina, checkea minas a su alrededor
@@ -102,6 +105,8 @@ function abreCasilla(img) {
         casillasPorRevisar.push(calculaAdjacentes(img));
         recursividad();
      }
+
+     compruebaVictoria();
     
 }
 
@@ -205,14 +210,44 @@ function esMina(casilla) {
 
 }
 
-// function cambiaMensajeBoton() {
-//     // Función que cambia el contenido del botón de iniciar partida
-//     let boton = document.getElementById('iniciar');
+function cambiaMensajeBoton() {
+    // Función que cambia el contenido del botón de iniciar partida
+    let boton = document.getElementById('iniciar');
 
-//     if () {
-//         boton.innerText = 'Jugar otra vez';
-//     } else {
-//         boton.innerText = 'Iniciar Partida';
-//     }
+    if (finJuego) {
+        boton.innerText = 'Jugar otra vez';
+    } else {
+        boton.innerText = 'Iniciar Partida';
+    }
 
-// }
+}
+
+function compruebaVictoria() {
+    
+    // TODO: comprobar si ha ganado recorriendo todo el tablero y viendo que todas las casillas estan abiertas si no son minas
+
+}
+
+function bandera(click, img) {
+
+    // Click derecho coloca bandera donde se piensa que hay mina
+    click.preventDefault();
+    if (img.getAttribute('abierta') == 'false') {
+        img.src = 'img/badera20px.jpg';
+        img.setAttribute('abierta', 'true');
+
+    } else {
+        img.src = 'img/fondo.jpg';
+        img.setAttribute('abierta', 'false');
+    }
+
+}
+
+function reiniciaJuego() {
+
+    casillasMinadas = [];
+    casillasPorRevisar = [];
+    nuevasCasillas = [];
+    finJuego = false;
+
+}
