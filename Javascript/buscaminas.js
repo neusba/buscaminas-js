@@ -11,6 +11,8 @@ let finJuego = false;
 
 function iniciarPartida() {
     cambiaMensajeBoton();
+    reiniciaJuego();
+
 
     filas = parseInt(prompt('Introduce el número de filas'));
     columnas = parseInt(prompt('Introduce el número de columnas'));
@@ -80,6 +82,11 @@ function setMinas() {
 
 function abreCasilla(img) {
 
+    // Si la partida se ha acabado, no abras mas casillas
+    if (finJuego) {
+        return;
+    }
+
     // comprobamos si esta ya abierta para no poder ejecutar nada una vez se abre
     if (img.getAttribute('abierta') == 'true') {
         return;
@@ -96,7 +103,6 @@ function abreCasilla(img) {
         revelarMapa();
         finJuego = true;
         cambiaMensajeBoton();
-        reiniciaJuego();
         return;
     }
     // Si no es mina, checkea minas a su alrededor
@@ -230,6 +236,11 @@ function compruebaVictoria() {
 
 function bandera(click, img) {
 
+    // Si la partida se ha acabado, no pongas mas banderas
+    if (finJuego) {
+        return;
+    }
+
     // Click derecho coloca bandera donde se piensa que hay mina
     click.preventDefault();
     if (img.getAttribute('abierta') == 'false') {
@@ -257,3 +268,5 @@ function reiniciaJuego() {
 }
 
 // TODO: Añadir imagenes para minas 6, 7, 8
+// TODO: comprobar si gana
+// Mirar si hacae falta reiniciar todas las variables o no
