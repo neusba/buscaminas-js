@@ -6,6 +6,7 @@ let casillasMinadas = [];
 let filas = 0;
 let columnas = 0;
 let casillasPorRevisar = [];
+let nuevasCasillas = [];
 
 function iniciarPartida() {
     // Reiniciar valores para empezar otra partida
@@ -154,9 +155,8 @@ function calculaAdjacentes(img) {
     return adjacentes;  // Devolvemos el array con las casilla adjacentes de la recibida
 
 }
-function recursividad() {
 
-    let nuevasCasillas = [];
+function recursividad() {
 
     // Revisar cada casilla adjacente y comprovar su numero de minas adjacentes
     for(let i=0; i<casillasPorRevisar.length; i++) {
@@ -164,27 +164,22 @@ function recursividad() {
             let adjacente = casillasPorRevisar[i][j];
             let img = document.querySelector(`[fila="${adjacente[0]}"][columna="${adjacente[1]}"]`);    // obtenemos el elemento específico
             if (img != undefined) {
-                img.style.border = '1px solid red';
                 if (img.getAttribute('abierta') == 'false') {
+                    img.setAttribute('abierta', 'true');
                     if (!checkeaMinasAlrededor(img)) {
-                        // img.setAttribute('abierta', 'true');
                         nuevasCasillas.push(calculaAdjacentes(img));
                     }
                 }
             }
         };
-        casillasPorRevisar.pop(casillasPorRevisar[i]);
     };
-    console.log(casillasPorRevisar.length);
-    console.log(nuevasCasillas.length)
-    if (nuevasCasillas.length > 0) {
+    
+    if (nuevasCasillas.length != 0) {
         casillasPorRevisar = nuevasCasillas;
         nuevasCasillas = [];
-        // recursividad();
+        recursividad();
     }
-    console.log(casillasPorRevisar.length);
-    console.log(nuevasCasillas.length)
-    console.log('fin recursividad');
+
 }
 
 function revelarMapa() {
