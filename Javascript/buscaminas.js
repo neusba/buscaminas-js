@@ -47,7 +47,7 @@ function crearTablero() {
         let fila = document.createElement('tr');
         for (let j=0; j<columnas; j++) {   
             let celda = document.createElement('td');
-            celda.innerHTML = `<img fila="${i}" columna="${j}" class="casilla" src="img/fondo.jpg" data-mine="false" abierta="false" onclick="abreCasilla(this)" oncontextmenu="bandera(event, this)"/>` // en el evento onclick le pasamos el parámetro this el cual equivale al elemento img que se esta clickando en ese momento
+            celda.innerHTML = `<img fila="${i}" columna="${j}" class="casilla" src="img/fondo.jpg" data-mine="false" abierta="false" onclick="abreCasilla(this)" oncontextmenu="bandera(event, this)" data-flag="false"/>` // en el evento onclick le pasamos el parámetro this el cual equivale al elemento img que se esta clickando en ese momento
 
             fila.appendChild(celda);
         }
@@ -235,10 +235,14 @@ function bandera(click, img) {
     if (img.getAttribute('abierta') == 'false') {
         img.src = 'img/badera20px.jpg';
         img.setAttribute('abierta', 'true');
+        img.setAttribute('data-flag', 'true');
 
     } else {
-        img.src = 'img/fondo.jpg';
-        img.setAttribute('abierta', 'false');
+        if (img.getAttribute('data-flag') == 'true') {
+            img.src = 'img/fondo.jpg';
+            img.setAttribute('data-flag', 'false');
+            img.setAttribute('abierta', 'false');
+        }
     }
 
 }
@@ -251,3 +255,5 @@ function reiniciaJuego() {
     finJuego = false;
 
 }
+
+// TODO: Añadir imagenes para minas 6, 7, 8
