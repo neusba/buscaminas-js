@@ -99,10 +99,12 @@ function abreCasilla(img) {
     if (esMina(img)) {
         img.src = 'img/mina.jpg';
         img.style.border = '2px solid red';
-        alert('¡BOOM! Has muerto');
         revelarMapa();
         finJuego = true;
         cambiaMensajeBoton();
+        // alert('¡BOOM! Has muerto');
+        document.get
+        document.getElementById('finDeJuego').innerText = 'Has perdido :(';
         return;
     }
     // Si no es mina, checkea minas a su alrededor
@@ -163,7 +165,7 @@ function calculaAdjacentes(img) {
 
     let adjacentes = [supIzquierda, supCentro, supDerecha, lineaIzquierda, lineaDerecha, infIzquierda, infCentro, infDerecha];
 
-    return adjacentes;  // Devolvemos el array con las casilla adjacentes de la recibida
+    return adjacentes;  // Devolvemos el array con las casillas adjacentes de la recibida
 
 }
 
@@ -239,10 +241,12 @@ function compruebaVictoria() {
         }
     }
 
-    alert('¡Felicidades! ¡Has ganado la partida!');
+    // alert('¡Felicidades! ¡Has ganado la partida!');
     finJuego =  true;
     revelarMapa();
     cambiaMensajeBoton();
+    document.getElementById('finDeJuego').innerText = '¡Felicidades! ¡Has ganado!';
+    tabla.style.border = '2px solid lightgreen';
 
 }
 
@@ -276,7 +280,6 @@ function reiniciaJuego() {
     casillasPorRevisar = [];
     nuevasCasillas = [];
     finJuego = false;
+    document.getElementById('finDeJuego').innerText = '¡Buena suerte!';
 
 }
-
-// TODO: Añadir imagenes para minas 6, 7, 8
